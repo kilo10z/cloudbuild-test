@@ -1,15 +1,10 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
-    args: ['-c', 'echo "Deploying Cloud Function..."']
-    secretEnv: ['MY_SECRET']
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
     args:
       - '-c'
       - |
-        echo "Deploying Cloud Function with secret..."
+        echo "Deploying Cloud Function..."
         gcloud functions deploy hello_world \
           --runtime python39 \
           --trigger-http \
