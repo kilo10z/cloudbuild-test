@@ -9,13 +9,7 @@ steps:
           --runtime python39 \
           --trigger-http \
           --allow-unauthenticated \
-          --set-env-vars MY_SECRET="$MY_SECRET"
-    secretEnv: ['_SECRET_MY_SECRET'] 
-
-availableSecrets:
-  secretManager:
-    - versionName: projects/kilo-gcp/secrets/dsfsdf/versions/1
-      env: '_SECRET_MY_SECRET'
+    
 
 options:
   logging: CLOUD_LOGGING_ONLY
