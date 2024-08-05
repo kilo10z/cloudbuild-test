@@ -9,8 +9,8 @@ steps:
           --runtime python39 \
           --trigger-http \
           --allow-unauthenticated \
-          --set-env-vars MY_SECRET="$_SECRET_MY_SECRET"
-    secretEnv: ['_SECRET_MY_SECRET']
+          --set-env-vars MY_SECRET="$MY_SECRET"
+    secretEnv: ['_SECRET_MY_SECRET'] 
 
 availableSecrets:
   secretManager:
