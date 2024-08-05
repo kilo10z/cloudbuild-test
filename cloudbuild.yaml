@@ -25,3 +25,5 @@ steps:
 substitutions:
   _PROJECT_ID: kilo-gcp
 
+options:
+  logging: CLOUD_LOGGING_ONLY
