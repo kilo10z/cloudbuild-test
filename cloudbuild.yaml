@@ -5,10 +5,8 @@ steps:
       - '-c'
       - |
         echo "Fetching secret..."
-        ACCESS_TOKEN=$(gcloud auth print-access-token)
-        SECRET=$(curl -H "Authorization: Bearer $ACCESS_TOKEN" \
-                      "https://secretmanager.googleapis.com/v1/projects/kilo-gcp/secrets/dsfsdf/versions/1:access" \
-                      | jq -r .payload.data | base64 --decode)
+        SECRET=$(gcloud secrets versions access 1 --secret=dsfsdf)
+        echo "SECRET=$SECRET" > /workspace/secret.env
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
@@ -20,10 +18,11 @@ steps:
       - '--trigger-http'
       - '--allow-unauthenticated'
       - '--set-env-vars'
-      - 'MY_SECRET=$SECRET'
+      - 'MY_SECRET=$(cat /workspace/secret.env | grep SECRET | cut -d "=" -f 2)'
 
 substitutions:
   _PROJECT_ID: kilo-gcp
 
 options:
   logging: CLOUD_LOGGING_ONLY
+
