@@ -1,24 +1,26 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
+    args: ['-c', 'echo "Deploying Cloud Function..."']
+    secretEnv: ['MY_SECRET']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
     args:
       - '-c'
       - |
-        echo "Fetching secret..."
-        SECRET=$(gcloud secrets versions access 1 --secret=dsfsdf)
-        echo "SECRET=$SECRET" > /workspace/secret.env
+        echo "Deploying Cloud Function with secret..."
+        gcloud functions deploy hello_world \
+          --runtime python39 \
+          --trigger-http \
+          --allow-unauthenticated \
+          --set-env-vars MY_SECRET="$MY_SECRET"
+    secretEnv: ['MY_SECRET']
 
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - 'functions'
-      - 'deploy'
-      - 'hello_world'
-      - '--runtime'
-      - 'python39'
-      - '--trigger-http'
-      - '--allow-unauthenticated'
-      - '--set-env-vars'
-      - 'MY_SECRET=$(grep SECRET /workspace/secret.env | cut -d "=" -f 2)'
+availableSecrets:
+  secretManager:
+    - versionName: projects/kilo-gcp/secrets/dsfsdf/versions/1
+      env: 'MY_SECRET'
 
 options:
   logging: CLOUD_LOGGING_ONLY
