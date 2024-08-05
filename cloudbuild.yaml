@@ -18,11 +18,7 @@ steps:
       - '--trigger-http'
       - '--allow-unauthenticated'
       - '--set-env-vars'
-      - 'MY_SECRET=$(cat /workspace/secret.env | grep SECRET | cut -d "=" -f 2)'
-
-substitutions:
-  _PROJECT_ID: kilo-gcp
+      - 'MY_SECRET=$(grep SECRET /workspace/secret.env | cut -d "=" -f 2)'
 
 options:
   logging: CLOUD_LOGGING_ONLY
-
