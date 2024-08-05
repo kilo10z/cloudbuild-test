@@ -1,0 +1,27 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Fetching secret..."
+        ACCESS_TOKEN=$(gcloud auth print-access-token)
+        SECRET=$(curl -H "Authorization: Bearer $ACCESS_TOKEN" \
+                      "https://secretmanager.googleapis.com/v1/projects/kilo-gcp/secrets/dsfsdf/versions/1:access" \
+                      | jq -r .payload.data | base64 --decode)
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'functions'
+      - 'deploy'
+      - 'hello_world'
+      - '--runtime'
+      - 'python39'
+      - '--trigger-http'
+      - '--allow-unauthenticated'
+      - '--set-env-vars'
+      - 'MY_SECRET=$SECRET'
+
+substitutions:
+  _PROJECT_ID: kilo-gcp
+
