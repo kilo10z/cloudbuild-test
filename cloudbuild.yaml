@@ -8,10 +8,8 @@ steps:
           --runtime python310 \
           --trigger-http \
           --allow-unauthenticated \
-      --project=satander-gcp1 \
-      --service-account=1016928842867-compute@developer.gserviceaccount.com
-
-
+          --project=satander-gcp1 \
+          --service-account=1016928842867-compute@developer.gserviceaccount.com
 
 options:
   logging: CLOUD_LOGGING_ONLY
