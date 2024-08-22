@@ -1,15 +1,17 @@
 steps:
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        echo "Deploying Cloud Function..."
-        gcloud functions deploy hello_world \
-          --runtime python39 \
-          --trigger-http \
-          --allow-unauthenticated \
-    
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    gcloud functions deploy helloWorld \
+      --region=us-central1 \
+      --runtime=nodejs18 \
+      --trigger-http \
+      --allow-unauthenticated \
+      --project=satander-gcp1 \
+      --service-account=1016928842867-compute@developer.gserviceaccount.com
+
 
 
 options:
